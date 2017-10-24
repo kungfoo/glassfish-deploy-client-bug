@@ -54,8 +54,9 @@ cargo {
 
     remote {
         port = 4848
+        protocol = 'https'
         hostname = "localhost"
         username = 'admin'
-        password = '2949562f'
+        password = '638c0b67'
     }
 }
