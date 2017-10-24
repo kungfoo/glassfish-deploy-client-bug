@@ -1,8 +1,28 @@
 group 'ch.mollusca.bugreports'
 version '0.1'
 
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "https://maven.java.net/content/repositories/releases/"
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5'
+        classpath "com.bmuschko:gradle-cargo-plugin:2.2.3"
+    }
+}
+
+
 apply plugin: 'war'
 apply plugin: 'java'
+apply plugin: "com.bmuschko.cargo"
 
 sourceCompatibility = 1.8
 
@@ -13,4 +33,22 @@ repositories {
 dependencies {
     compile group: 'javax', name: 'javaee-api', version: '7.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    def cargoVersion = '1.6.5'
+    cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion"
+    cargo "org.codehaus.cargo:cargo-ant:$cargoVersion"
+    cargo('org.glassfish.main.deployment:deployment-client:5.0') {
+
+    }
+}
+
+cargo {
+    containerId = 'glassfish4x'
+
+    remote {
+        port = 4848
+        hostname = "localhost"
+        username = 'admin'
+        password = '2949562f'
+    }
 }
